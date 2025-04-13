@@ -36,10 +36,7 @@ export default function BentoGrid() {
   }
 
   return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      animate="show"
+    <div
       className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-20"
     >
       {/* Hero Section - Large Card */}
@@ -128,6 +125,6 @@ export default function BentoGrid() {
       <motion.div variants={item} className="col-span-1 md:col-span-2  row-span-1">
         <ContactCard />
       </motion.div>
-    </motion.div>
+    </div>
   )
 }

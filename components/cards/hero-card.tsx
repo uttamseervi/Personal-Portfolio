@@ -23,7 +23,7 @@ export default function HeroCard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-6xl font-bold mb-4 text-white"
+          className="text-4xl md:text-6xl font-bold mb-4 text-white pt-4"
         >
           Uttam Seervi
         </motion.h1>
@@ -58,6 +58,7 @@ export default function HeroCard() {
           transition={{ duration: 0.5, delay: 0.6 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          className="pb-6"
         >
           <Button
             onClick={scrollToProjects}
