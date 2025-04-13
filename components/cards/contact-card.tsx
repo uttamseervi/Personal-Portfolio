@@ -1,66 +1,66 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useToast } from "@/components/ui/use-toast" // Adjust the import if necessary
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Send } from "lucide-react"
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";  // Correct import for the toast hook
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Send } from "lucide-react";
 
 export default function ContactCard() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
     message: "",
-  })
+  });
 
-  const { toast } = useToast() // Initialize the toast hook
+  const { toast } = useToast();  // Initialize the toast hook
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formState),
-      })
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (res.ok) {
         toast({
           title: "Message Sent!",
           description: "Your message has been sent successfully.",
           variant: "default",
-        })
+        });
       } else {
         toast({
           title: "Failed to Send!",
           description: "There was an issue with your message. Please try again later.",
           variant: "destructive",
-        })
+        });
       }
     } catch (error) {
-      console.error("Error submitting form:", error)
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
         description: "An unexpected error occurred. Please try again later.",
         variant: "destructive",
-      })
+      });
     }
 
     // Reset form after submission
-    setFormState({ name: "", email: "", message: "" })
-  }
+    setFormState({ name: "", email: "", message: "" });
+  };
 
   return (
     <Card className="w-full h-full bg-zinc-900 border-zinc-800 overflow-hidden">
@@ -99,5 +99,5 @@ export default function ContactCard() {
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }

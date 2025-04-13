@@ -14,7 +14,6 @@ export async function POST(req: Request) {
             subject: `New Contact Form Message from ${name}`,
             text: `Email: ${email}\n\nMessage:\n${message}`,
         });
-        console.log("the messge is sent")
 
         return new Response(JSON.stringify({ message: 'Email sent successfully!' }), {
             status: 200,
