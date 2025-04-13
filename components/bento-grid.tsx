@@ -1,7 +1,11 @@
 "use client"
 
-import { motion } from "framer-motion"
-import HeroCard from "./cards/hero-card"
+import { useEffect } from "react"
+import dynamic from "next/dynamic"
+import useIsMobile from "@/hooks/useIsMobile"
+import FadeInSection from "@/components/FadeInSection"
+
+// Lightweight cards
 import AboutCard from "./cards/about-card"
 import SkillsCard from "./cards/skills-card"
 import ProjectsCard from "./cards/projects-card"
@@ -9,122 +13,134 @@ import ResumeCard from "./cards/resume-card"
 import ContactCard from "./cards/contact-card"
 import TechStackCard from "./cards/tech-stack-card"
 import SocialCard from "./cards/social-card"
-import Robot3DCard from "./cards/robot-3d-card"
-import TimelineCard from "./cards/timeline-card"
 import TestimonialsCard from "./cards/testimonials-card"
-import ParticleModelCard from "./cards/particle-model-card"
 import BlogCard from "./cards/blog-card"
-import ExperimentsCard from "./cards/experiments-card"
-import ChatGtpButton from "./chatgptButton"
-import RobotBall from "./cards/robot-ball"
-import CircuitLoop from "./cards/ascending-up"
+
+// Dynamically imported heavy components
+const HeroCard = dynamic(() => import("./cards/hero-card"), { ssr: false })
+const Robot3DCard = dynamic(() => import("./cards/robot-3d-card"), { ssr: false })
+const ParticleModelCard = dynamic(() => import("./cards/particle-model-card"), { ssr: false })
+const ChatGtpButton = dynamic(() => import("./chatgptButton"), { ssr: false })
+const RobotBall = dynamic(() => import("./cards/robot-ball"), { ssr: false })
+const CircuitLoop = dynamic(() => import("./cards/ascending-up"), { ssr: false })
 
 export default function BentoGrid() {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
+  const isMobile = useIsMobile()
 
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
+  // Prevent scroll on load
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual"
+    }
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
-    <div
-      className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-20"
-    >
-      {/* Hero Section - Large Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-3 lg:col-span-4 h-[400px]" id="hero">
-        <HeroCard />
-      </motion.div>
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 pt-20">
+      {/* Hero Section */}
+      <div className="col-span-1 md:col-span-3 lg:col-span-4 min-h-[400px]" id="hero">
+        <FadeInSection>
+          <HeroCard />
+        </FadeInSection>
+      </div>
 
-      {/* About Section - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-3 row-span-1" id="about">
-        <AboutCard />
-      </motion.div>
+      {/* About */}
+      <div className="col-span-1 md:col-span-3 row-span-1" id="about">
+        <FadeInSection>
+          <AboutCard />
+        </FadeInSection>
+      </div>
 
-      {/* Social Links - Small Card */}
-      <motion.div variants={item} className="col-span-1 row-span-1">
-        <SocialCard />
-      </motion.div>
+      {/* Social */}
+      <div className="col-span-1 row-span-1">
+        <FadeInSection>
+          <SocialCard />
+        </FadeInSection>
+      </div>
 
+      {/* 3D Robot */}
+      <div className="col-span-1 md:col-span-2 row-span-2">
+        <FadeInSection>
+          <Robot3DCard />
+        </FadeInSection>
+      </div>
 
-      {/* 3D Robot Model - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-2 h-[400px]">
-        <Robot3DCard />
-      </motion.div>
+      {/* Skills */}
+      <div className="col-span-1 md:col-span-2 row-span-2" id="skills">
+        <FadeInSection>
+          <SkillsCard />
+        </FadeInSection>
+      </div>
 
-      {/* Skills Section - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-2" id="skills">
-        <SkillsCard />
-      </motion.div>
+      {/* Tech Stack */}
+      <div className="col-span-1 row-span-1">
+        <FadeInSection>
+          <TechStackCard />
+        </FadeInSection>
+      </div>
 
-      {/* Tech Stack - Small Card */}
-      <motion.div variants={item} className="col-span-1 row-span-1">
-        <TechStackCard />
-      </motion.div>
+      {/* Resume */}
+      <div className="col-span-1 md:col-span-2 lg:col-span-3 row-span-1" id="resume">
+        <FadeInSection>
+          <ResumeCard />
+        </FadeInSection>
+      </div>
 
-      {/* Contact Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 lg:col-span-3 row-span-1" id="resume">
-        <ResumeCard />
-      </motion.div>
+      {/* ChatGPT Button */}
+      <div className="col-span-1 md:col-span-2 row-span-2 h-[350px]">
+        <FadeInSection>
+          <ChatGtpButton />
+        </FadeInSection>
+      </div>
 
-      {/* Interactive Globe - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-2 h-[350px]">
+      {/* Circuit Loop */}
+      <div className="col-span-1 md:col-span-2 row-span-2 h-[350px]">
+        <FadeInSection>
+          <CircuitLoop />
+        </FadeInSection>
+      </div>
 
-        <ChatGtpButton />
-      </motion.div>
-      {/* ascending up */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-2 h-[350px]">
+      {/* Projects */}
+      <div className="col-span-1 md:col-span-3 lg:col-span-4 row-span-1" id="projects">
+        <FadeInSection>
+          <ProjectsCard />
+        </FadeInSection>
+      </div>
 
-        <CircuitLoop />
-      </motion.div>
+      {/* Particle Model */}
+      <div className="col-span-1 md:col-span-2 row-span-2 h-[350px]">
+        <FadeInSection>
+          <ParticleModelCard />
+        </FadeInSection>
+      </div>
 
-      {/* Projects Section - Large Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-3 lg:col-span-4 row-span-1" id="projects">
-        <ProjectsCard />
-      </motion.div>
+      {/* Testimonials */}
+      <div className="col-span-1 md:col-span-2 row-span-1">
+        <FadeInSection>
+          <TestimonialsCard />
+        </FadeInSection>
+      </div>
 
-      {/* Timeline Section - Large Card */}
-      {/* <motion.div variants={item} className="col-span-1 md:col-span-3 lg:col-span-4 row-span-1">
-        <TimelineCard />
-      </motion.div> */}
+      {/* Blog */}
+      <div className="col-span-1 md:col-span-3 lg:col-span-4">
+        <FadeInSection>
+          <BlogCard />
+        </FadeInSection>
+      </div>
 
-      {/* Particle Model - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-2 h-[350px]">
-        <ParticleModelCard />
-      </motion.div>
+      {/* Robot Ball */}
+      <div className="col-span-1 md:col-span-2 row-span-1">
+        <FadeInSection>
+          <RobotBall />
+        </FadeInSection>
+      </div>
 
-      {/* Testimonials - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-1">
-        <TestimonialsCard />
-      </motion.div>
-
-      {/* Blog Posts - Medium Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-3 lg:col-span-4 ">
-        <BlogCard />
-      </motion.div>
-
-      {/* Experiments - Medium Card */}
-      {/* <motion.div variants={item} className="col-span-1 md:col-span-2 row-span-1">
-        <ExperimentsCard />
-      </motion.div> */}
-
-      {/* robot ball  */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2  row-span-1">
-        <RobotBall />
-      </motion.div>
-
-      {/* Contact Card */}
-      <motion.div variants={item} className="col-span-1 md:col-span-2  row-span-1">
-        <ContactCard />
-      </motion.div>
+      {/* Contact */}
+      <div className="col-span-1 md:col-span-2 row-span-1">
+        <FadeInSection>
+          <ContactCard />
+        </FadeInSection>
+      </div>
     </div>
   )
 }
